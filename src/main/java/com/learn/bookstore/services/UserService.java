@@ -1,10 +1,11 @@
 package com.learn.bookstore.services;
 
-import com.learn.bookstore.dto.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
 import com.learn.bookstore.models.User;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
@@ -12,11 +13,13 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    Optional<User> findByEmail(String email);
+    User findByEmail(Authentication authorization);
 
     List<User> getAllUsers();
 
-    void deleteUser(Long id);
+    User addPhoneNumber(Authentication authentication, String phone);
 
-    User updateUser(Long id, User user);
+    void deleteUser(Authentication authentication);
+
+    User updateUser(Authentication authentication, UserUpdateRequestDTO user);
 }

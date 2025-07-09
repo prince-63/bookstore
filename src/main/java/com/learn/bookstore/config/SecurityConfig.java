@@ -20,8 +20,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/user/**").permitAll()
-                        .requestMatchers("/test/**").authenticated()
+                        .requestMatchers("/user/register").permitAll()
+                        .requestMatchers("/user/get/{id}", "/user/get-all").hasRole("ADMIN")
+                        .requestMatchers("/test/**", "/user/**").authenticated()
                 );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());

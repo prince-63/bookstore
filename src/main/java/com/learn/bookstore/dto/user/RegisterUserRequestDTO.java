@@ -1,4 +1,4 @@
-package com.learn.bookstore.dto;
+package com.learn.bookstore.dto.user;
 
 import lombok.Builder;
 

@@ -13,8 +13,8 @@ spring:
         properties:
             hibernate:
                 format_sql: ${HIBERNATE_FORMAT_SQL:true}
-        hibernate:
-            ddl-auto: update
+#        hibernate:
+#            ddl-auto: create
 
 logging:
     level:

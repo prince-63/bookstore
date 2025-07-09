@@ -1,16 +1,18 @@
 package com.learn.bookstore.services.impl;
 
-import com.learn.bookstore.dto.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
+import com.learn.bookstore.exceptions.ResourceNotFoundException;
 import com.learn.bookstore.models.Role;
 import com.learn.bookstore.models.User;
 import com.learn.bookstore.repositories.UserRepository;
 import com.learn.bookstore.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -32,28 +34,54 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        return null;
+    public User getUserById(Long id) throws ResourceNotFoundException {
+        return userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User","userId", id.toString())
+        );
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return Optional.empty();
+    public User findByEmail(Authentication authorization) throws ResourceNotFoundException {
+        String email = authorization.getName();
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User","email", email)
+        );
     }
 
     @Override
     public List<User> getAllUsers() {
-        return List.of();
+        return userRepository.findAll();
     }
 
     @Override
-    public void deleteUser(Long id) {
-
+    public User addPhoneNumber(Authentication authentication, String phone) throws ResourceNotFoundException {
+        String email = authentication.getName();
+        User  user = userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User","email", email)
+        );
+        user.setPhone(phone);
+        return userRepository.save(user);
     }
 
     @Override
-    public User updateUser(Long id, User user) {
-        return null;
+    public void deleteUser(Authentication authentication) throws ResourceNotFoundException {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User","email", email)
+        );
+        userRepository.delete(user);
+    }
+
+    @Override
+    public User updateUser(Authentication authentication, UserUpdateRequestDTO user) throws ResourceNotFoundException {
+        String email = authentication.getName();
+        User dbUser = userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User","email", email)
+        );
+        dbUser.setEmail(user.email() != null ? user.email() : dbUser.getEmail());
+        dbUser.setName(user.name() != null ? user.name() : dbUser.getName());
+        dbUser.setPhone(user.phone() != null ? user.phone() : dbUser.getPhone());
+        return userRepository.save(dbUser);
     }
 
 }

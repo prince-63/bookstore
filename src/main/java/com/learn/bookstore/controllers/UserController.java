@@ -1,16 +1,20 @@
 package com.learn.bookstore.controllers;
 
-import com.learn.bookstore.dto.RegisterUserRequestDTO;
-import com.learn.bookstore.dto.RegisterUserResponseDTO;
+import com.learn.bookstore.dto.*;
+import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.user.UserPhoneNumberUpdateRequestDTO;
+import com.learn.bookstore.dto.user.UserResponseDTO;
+import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
+import com.learn.bookstore.mappers.UserResponseMapper;
 import com.learn.bookstore.models.User;
 import com.learn.bookstore.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -20,9 +24,72 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterUserResponseDTO> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         User user = userService.register(registerUserRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(RegisterUserResponseDTO.builder().name(user.getName()).email(user.getEmail()).message("User registration successful!").build());
+        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
+        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setSuccess(true);
+        response.setMessage("Registration successful.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
+        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setSuccess(true);
+        response.setMessage("User retrieved successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/get-curr")
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> getCurrUser(Authentication authentication) {
+        User user = userService.findByEmail(authentication);
+        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
+        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setSuccess(true);
+        response.setMessage("User retrieved successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<ResponseDTO<List<UserResponseDTO>>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        ResponseDTO<List<UserResponseDTO>> response = new ResponseDTO<>();
+        response.setData(users.stream().map(UserResponseMapper::UserToUserResponseMapper).toList());
+        response.setSuccess(true);
+        response.setMessage("All users retrieved successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/add-phone")
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> addPhoneNumber(Authentication authentication, @RequestBody UserPhoneNumberUpdateRequestDTO phoneNumber) {
+        User user = userService.addPhoneNumber(authentication, phoneNumber.phoneNumber());
+        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
+        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setSuccess(true);
+        response.setMessage("Phone number update successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDTO<String>> deleteUser(Authentication authentication) {
+        userService.deleteUser(authentication);
+        ResponseDTO<String> response = new ResponseDTO<>();
+        response.setSuccess(true);
+        response.setMessage("User deleted successfully.");
+        response.setData(String.format("User deleted successfully: %s", authentication.getName()));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> updateUser(Authentication authentication, @RequestBody UserUpdateRequestDTO user) {
+        User updatedUser = userService.updateUser(authentication, user);
+        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
+        response.setData(UserResponseMapper.UserToUserResponseMapper(updatedUser));
+        response.setSuccess(true);
+        response.setMessage("User updated successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

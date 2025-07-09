@@ -9,20 +9,3 @@ import java.time.LocalDateTime;
 public record ErrorResponseDTO(String apiPath, HttpStatus errorCode, String errorMessage, LocalDateTime errorTime) {
 
 }
-
-//private  String apiPath;
-//
-//@Schema(
-//        description = "Error code representing the error happened"
-//)
-//private HttpStatus errorCode;
-//
-//@Schema(
-//        description = "Error message representing the error happened"
-//)
-//private  String errorMessage;
-//
-//@Schema(
-//        description = "Time representing when the error happened"
-//)
-//private LocalDateTime errorTime;
