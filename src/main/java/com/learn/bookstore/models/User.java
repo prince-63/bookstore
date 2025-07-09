@@ -2,9 +2,7 @@ package com.learn.bookstore.models;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class User extends BaseEntity{
 
     @Id

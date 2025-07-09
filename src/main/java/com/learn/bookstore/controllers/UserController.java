@@ -21,17 +21,8 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterUserResponseDTO> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
-        try {
-            User user = userService.register(registerUserRequestDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                    RegisterUserResponseDTO.builder().name(user.getName()).email(user.getEmail()).message("User registration successful!").build()
-            );
-        }
-        catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    RegisterUserResponseDTO.builder().name("").email("").message("User registration failed!").build()
-            );
-        }
+        User user = userService.register(registerUserRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(RegisterUserResponseDTO.builder().name(user.getName()).email(user.getEmail()).message("User registration successful!").build());
     }
 
 }
