@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         User user = userService.register(registerUserRequestDTO);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setData(UserResponseMapper.toDTO(user));
         response.setSuccess(true);
         response.setMessage("Registration successful.");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setData(UserResponseMapper.toDTO(user));
         response.setSuccess(true);
         response.setMessage("User retrieved successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -45,9 +45,9 @@ public class UserController {
 
     @GetMapping("/get-curr")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getCurrUser(Authentication authentication) {
-        User user = userService.findByEmail(authentication);
+        User user = userService.findByEmail(authentication.getName());
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setData(UserResponseMapper.toDTO(user));
         response.setSuccess(true);
         response.setMessage("User retrieved successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -57,7 +57,7 @@ public class UserController {
     public ResponseEntity<ResponseDTO<List<UserResponseDTO>>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         ResponseDTO<List<UserResponseDTO>> response = new ResponseDTO<>();
-        response.setData(users.stream().map(UserResponseMapper::UserToUserResponseMapper).toList());
+        response.setData(users.stream().map(UserResponseMapper::toDTO).toList());
         response.setSuccess(true);
         response.setMessage("All users retrieved successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -65,9 +65,9 @@ public class UserController {
 
     @PatchMapping("/add-phone")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> addPhoneNumber(Authentication authentication, @RequestBody UserPhoneNumberUpdateRequestDTO phoneNumber) {
-        User user = userService.addPhoneNumber(authentication, phoneNumber.phoneNumber());
+        User user = userService.addPhoneNumber(authentication.getName(), phoneNumber.phoneNumber());
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.UserToUserResponseMapper(user));
+        response.setData(UserResponseMapper.toDTO(user));
         response.setSuccess(true);
         response.setMessage("Phone number update successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -75,7 +75,7 @@ public class UserController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDTO<String>> deleteUser(Authentication authentication) {
-        userService.deleteUser(authentication);
+        userService.deleteUser(authentication.getName());
         ResponseDTO<String> response = new ResponseDTO<>();
         response.setSuccess(true);
         response.setMessage("User deleted successfully.");
@@ -85,9 +85,9 @@ public class UserController {
 
     @PatchMapping("/update")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> updateUser(Authentication authentication, @RequestBody UserUpdateRequestDTO user) {
-        User updatedUser = userService.updateUser(authentication, user);
+        User updatedUser = userService.updateUser(authentication.getName(), user);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.UserToUserResponseMapper(updatedUser));
+        response.setData(UserResponseMapper.toDTO(updatedUser));
         response.setSuccess(true);
         response.setMessage("User updated successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);

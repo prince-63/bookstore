@@ -12,7 +12,8 @@ public class Address extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name="user_id", referencedColumnName = "id", nullable = true)
     private User user;
 
     private String line1;

@@ -38,8 +38,8 @@ public class User extends BaseEntity{
     @Nullable
     private String phone;
 
-    @OneToMany(mappedBy = "user")
-    private List<Address> addresses;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Address.class)
+    private Set<Address> addresses;
 
     @OneToMany(mappedBy = "user")
     private List<CartItem> cartItems;

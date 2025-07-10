@@ -8,7 +8,6 @@ import com.learn.bookstore.models.User;
 import com.learn.bookstore.repositories.UserRepository;
 import com.learn.bookstore.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(Authentication authorization) throws ResourceNotFoundException {
-        String email = authorization.getName();
+    public User findByEmail(String email) throws ResourceNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User","email", email)
         );
@@ -54,8 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addPhoneNumber(Authentication authentication, String phone) throws ResourceNotFoundException {
-        String email = authentication.getName();
+    public User addPhoneNumber(String email, String phone) throws ResourceNotFoundException {
         User  user = userRepository.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User","email", email)
         );
@@ -64,8 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Authentication authentication) throws ResourceNotFoundException {
-        String email = authentication.getName();
+    public void deleteUser(String email) throws ResourceNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User","email", email)
         );
@@ -73,8 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(Authentication authentication, UserUpdateRequestDTO user) throws ResourceNotFoundException {
-        String email = authentication.getName();
+    public User updateUser(String email, UserUpdateRequestDTO user) throws ResourceNotFoundException {
         User dbUser = userRepository.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User","email", email)
         );

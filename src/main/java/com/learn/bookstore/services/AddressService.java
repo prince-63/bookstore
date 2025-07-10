@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface AddressService {
 
-    Address addAddress(Long userId, Address address);
+    Address addAddress(String email, Address address);
 
-    List<Address> getAddressesByUser(Long userId);
+    List<Address> getAddressesByUser(String email);
 
-    Address updateAddress(Long id, Address address);
+    Address updateAddress(String email, Long addressId, Address updatedAddress);
 
-    void deleteAddress(Long id);
+    void deleteAddress(String email, Long addressId);
 
 }
