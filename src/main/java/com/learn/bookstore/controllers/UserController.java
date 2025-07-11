@@ -1,20 +1,29 @@
 package com.learn.bookstore.controllers;
 
-import com.learn.bookstore.dto.*;
-import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
-import com.learn.bookstore.dto.user.UserPhoneNumberUpdateRequestDTO;
-import com.learn.bookstore.dto.user.UserResponseDTO;
-import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
+import com.learn.bookstore.constants.ApplicationConstants;
+import com.learn.bookstore.dto.ResponseDTO;
+import com.learn.bookstore.dto.user.*;
 import com.learn.bookstore.mappers.UserResponseMapper;
 import com.learn.bookstore.models.user.User;
 import com.learn.bookstore.services.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +31,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final Environment environment;
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
@@ -32,6 +43,32 @@ public class UserController {
         response.setMessage("Registration successful.");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+        String jwt;
+        Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(loginRequestDTO.username(), loginRequestDTO.password());
+        Authentication authenticationResponse = authenticationManager.authenticate(authentication);
+        if (null != authenticationResponse && authenticationResponse.isAuthenticated()) {
+            if (environment != null) {
+                String secret = environment.getProperty(ApplicationConstants.JWT_SECRET_KEY, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
+                SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+                jwt = Jwts.builder()
+                        .issuer("bookstore")
+                        .subject("JWT Token")
+                        .claim("username", authenticationResponse.getName())
+                        .claim("authorities", authenticationResponse.getAuthorities()
+                                .stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
+                        .issuedAt(new Date())
+                        .expiration(new Date((new Date()).getTime() + 30000000))
+                        .signWith(secretKey).compact();
+                return ResponseEntity.status(HttpStatus.OK).header(ApplicationConstants.JWT_HEADER, jwt).body(new LoginResponseDTO(HttpStatus.OK.getReasonPhrase(), jwt));
+            }
+        } else {
+            throw new BadCredentialsException("Username or password is incorrect.");
+        }
+        return null;
+    };
 
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(@PathVariable Long id) {
