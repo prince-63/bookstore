@@ -1,9 +1,10 @@
 package com.learn.bookstore.controllers;
 
 import com.learn.bookstore.dto.ResponseDTO;
-import com.learn.bookstore.dto.address.AddressResponseDTO;
-import com.learn.bookstore.mappers.AddressResponseMapper;
-import com.learn.bookstore.models.Address;
+import com.learn.bookstore.dto.user.address.AddressRequestDTO;
+import com.learn.bookstore.dto.user.address.AddressResponseDTO;
+import com.learn.bookstore.mappers.AddressMapper;
+import com.learn.bookstore.models.user.Address;
 import com.learn.bookstore.services.AddressService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,10 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping("/address")
-    public ResponseEntity<ResponseDTO<AddressResponseDTO>> addAddress(Authentication authentication, @RequestBody Address address) {
+    public ResponseEntity<ResponseDTO<AddressResponseDTO>> addAddress(Authentication authentication, @RequestBody AddressRequestDTO address) {
         Address savedAddress = addressService.addAddress(authentication.getName(), address);
         ResponseDTO<AddressResponseDTO> response = new ResponseDTO<>();
-        response.setData(AddressResponseMapper.toDTO(savedAddress));
+        response.setData(AddressMapper.toDTO(savedAddress));
         response.setSuccess(true);
         response.setMessage("Address saved successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -35,17 +36,17 @@ public class AddressController {
     public ResponseEntity<ResponseDTO<List<AddressResponseDTO>>> getAddressesByUser(Authentication authentication) {
         List<Address> savedAddress = addressService.getAddressesByUser(authentication.getName());
         ResponseDTO<List<AddressResponseDTO>> response = new ResponseDTO<>();
-        response.setData(savedAddress.stream().map(AddressResponseMapper::toDTO).collect(Collectors.toList()));
+        response.setData(savedAddress.stream().map(AddressMapper::toDTO).collect(Collectors.toList()));
         response.setSuccess(true);
         response.setMessage("Address retrieved successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/address/{id}")
-    public ResponseEntity<ResponseDTO<AddressResponseDTO>> updateAddress(Authentication authentication, @PathVariable Long id, @RequestBody Address address) {
+    public ResponseEntity<ResponseDTO<AddressResponseDTO>> updateAddress(Authentication authentication, @PathVariable Long id, @RequestBody AddressRequestDTO address) {
         Address updatedAddress = addressService.updateAddress(authentication.getName(), id, address);
         ResponseDTO<AddressResponseDTO> response = new ResponseDTO<>();
-        response.setData(AddressResponseMapper.toDTO(updatedAddress));
+        response.setData(AddressMapper.toDTO(updatedAddress));
         response.setSuccess(true);
         response.setMessage("Address updated successfully");
         return ResponseEntity.status(HttpStatus.OK).body(response);

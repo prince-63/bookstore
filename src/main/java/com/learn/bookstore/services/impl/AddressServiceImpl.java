@@ -1,8 +1,10 @@
 package com.learn.bookstore.services.impl;
 
+import com.learn.bookstore.dto.user.address.AddressRequestDTO;
 import com.learn.bookstore.exceptions.ResourceNotFoundException;
-import com.learn.bookstore.models.Address;
-import com.learn.bookstore.models.User;
+import com.learn.bookstore.mappers.AddressMapper;
+import com.learn.bookstore.models.user.Address;
+import com.learn.bookstore.models.user.User;
 import com.learn.bookstore.repositories.AddressRepository;
 import com.learn.bookstore.repositories.UserRepository;
 import com.learn.bookstore.services.AddressService;
@@ -19,8 +21,9 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
 
     @Override
-    public Address addAddress(String email, Address address) throws ResourceNotFoundException {
+    public Address addAddress(String email, AddressRequestDTO addressRequestDTO) throws ResourceNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+        Address address = AddressMapper.toModel(addressRequestDTO);
         address.setUser(user);
         addressRepository.save(address);
         return address;
@@ -33,17 +36,17 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address updateAddress(String email, Long addressId, Address updatedAddress) throws ResourceNotFoundException {
+    public Address updateAddress(String email, Long addressId, AddressRequestDTO updatedAddress) throws ResourceNotFoundException {
         Address address = loadAddress(email, addressId);
 
-        address.setLine1(updatedAddress.getLine1());
-        address.setLine2(updatedAddress.getLine2());
-        address.setCity(updatedAddress.getCity());
-        address.setState(updatedAddress.getState());
-        address.setPostalCode(updatedAddress.getPostalCode());
-        address.setCountry(updatedAddress.getCountry());
-        address.setType(updatedAddress.getType());
-        address.setDefault(updatedAddress.isDefault());
+        address.setLine1(updatedAddress.line1() != null ? updatedAddress.line1() : address.getLine1());
+        address.setLine2(updatedAddress.line2() != null ? updatedAddress.line2() : address.getLine2());
+        address.setCity(updatedAddress.city() != null ? updatedAddress.city() : address.getCity());
+        address.setState(updatedAddress.state() != null ? updatedAddress.state() : address.getState());
+        address.setPostalCode(updatedAddress.postalCode() != null ? updatedAddress.postalCode() : address.getPostalCode());
+        address.setCountry(updatedAddress.country() != null ? updatedAddress.country() : address.getCountry());
+        address.setType(updatedAddress.type() != null ? updatedAddress.type() : address.getType());
+        address.setDefault(updatedAddress.isDefault() || address.isDefault());
 
         return addressRepository.save(address);
     }

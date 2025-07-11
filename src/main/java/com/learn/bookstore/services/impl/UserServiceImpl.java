@@ -3,8 +3,8 @@ package com.learn.bookstore.services.impl;
 import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
 import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
 import com.learn.bookstore.exceptions.ResourceNotFoundException;
-import com.learn.bookstore.models.Role;
-import com.learn.bookstore.models.User;
+import com.learn.bookstore.models.user.Role;
+import com.learn.bookstore.models.user.User;
 import com.learn.bookstore.repositories.UserRepository;
 import com.learn.bookstore.services.UserService;
 import lombok.AllArgsConstructor;
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addPhoneNumber(String email, String phone) throws ResourceNotFoundException {
-        User  user = userRepository.findByEmail(email).orElseThrow(
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User","email", email)
         );
         user.setPhone(phone);

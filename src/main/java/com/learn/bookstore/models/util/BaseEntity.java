@@ -1,4 +1,4 @@
-package com.learn.bookstore.models;
+package com.learn.bookstore.models.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

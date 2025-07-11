@@ -1,7 +1,7 @@
 package com.learn.bookstore.repositories;
 
-import com.learn.bookstore.models.Address;
-import com.learn.bookstore.models.AddressType;
+import com.learn.bookstore.models.user.Address;
+import com.learn.bookstore.models.user.AddressType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,12 +1,14 @@
-package com.learn.bookstore.models;
+package com.learn.bookstore.models.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.learn.bookstore.models.util.BaseEntity;
+import com.learn.bookstore.models.order.CartItem;
+import com.learn.bookstore.models.order.Order;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -14,7 +16,7 @@ import java.util.Set;
 @Table(name = "users")
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,28 +33,18 @@ public class User extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Authority> authorities;
-
     @Nullable
     private String phone;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Address.class)
+    @JsonManagedReference
     private Set<Address> addresses;
 
-    @OneToMany(mappedBy = "user")
-    private List<CartItem> cartItems;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = CartItem.class)
+    @JsonManagedReference
+    private Set<CartItem> cartItems;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
-
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviews;
-
-    @OneToMany(mappedBy = "user")
-    private List<Wishlist> wishlist;
-
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Order.class)
+    @JsonManagedReference
+    private Set<Order> orders;
 }

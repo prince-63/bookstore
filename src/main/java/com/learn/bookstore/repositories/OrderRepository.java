@@ -1,6 +1,6 @@
 package com.learn.bookstore.repositories;
 
-import com.learn.bookstore.models.Order;
+import com.learn.bookstore.models.order.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,14 @@
-package com.learn.bookstore.models;
+package com.learn.bookstore.models.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.learn.bookstore.models.util.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Entity
 @Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class Address extends BaseEntity {
 
     @Id
@@ -14,6 +17,7 @@ public class Address extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name="user_id", referencedColumnName = "id", nullable = true)
+    @JsonBackReference
     private User user;
 
     private String line1;

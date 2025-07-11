@@ -1,6 +1,6 @@
 package com.learn.bookstore.repositories;
 
-import com.learn.bookstore.models.Category;
+import com.learn.bookstore.models.book.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

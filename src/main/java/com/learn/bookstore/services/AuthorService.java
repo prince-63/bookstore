@@ -1,6 +1,6 @@
 package com.learn.bookstore.services;
 
-import com.learn.bookstore.models.Author;
+import com.learn.bookstore.models.book.Author;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import com.learn.bookstore.dto.user.UserPhoneNumberUpdateRequestDTO;
 import com.learn.bookstore.dto.user.UserResponseDTO;
 import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
 import com.learn.bookstore.mappers.UserResponseMapper;
-import com.learn.bookstore.models.User;
+import com.learn.bookstore.models.user.User;
 import com.learn.bookstore.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

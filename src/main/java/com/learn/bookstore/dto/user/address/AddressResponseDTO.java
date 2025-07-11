@@ -1,6 +1,6 @@
-package com.learn.bookstore.dto.address;
+package com.learn.bookstore.dto.user.address;
 
-import com.learn.bookstore.models.AddressType;
+import com.learn.bookstore.models.user.AddressType;
 import lombok.Builder;
 
 @Builder
