@@ -1,4 +1,4 @@
-package com.learn.bookstore.dto.user;
+package com.learn.bookstore.dto;
 
 public record UserPhoneNumberUpdateRequestDTO(String phoneNumber) {
 }

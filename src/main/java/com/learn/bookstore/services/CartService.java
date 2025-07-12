@@ -1,6 +1,6 @@
 package com.learn.bookstore.services;
 
-import com.learn.bookstore.models.order.CartItem;
+import com.learn.bookstore.models.CartItem;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.learn.bookstore.services.impl;
 
-import com.learn.bookstore.models.user.User;
+import com.learn.bookstore.models.User;
 import com.learn.bookstore.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

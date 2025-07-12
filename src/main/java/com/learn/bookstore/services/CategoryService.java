@@ -1,7 +1,7 @@
 package com.learn.bookstore.services;
 
-import com.learn.bookstore.dto.book.CategoryRequestDTO;
-import com.learn.bookstore.models.book.Category;
+import com.learn.bookstore.dto.CategoryRequestDTO;
+import com.learn.bookstore.models.Category;
 
 import java.util.List;
 

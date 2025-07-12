@@ -1,9 +1,9 @@
 package com.learn.bookstore.services.impl;
 
-import com.learn.bookstore.dto.book.CategoryRequestDTO;
+import com.learn.bookstore.dto.CategoryRequestDTO;
 import com.learn.bookstore.exceptions.ResourceNotFoundException;
 import com.learn.bookstore.mappers.CategoryMapper;
-import com.learn.bookstore.models.book.Category;
+import com.learn.bookstore.models.Category;
 import com.learn.bookstore.repositories.CategoryRepository;
 import com.learn.bookstore.services.CategoryService;
 import lombok.AllArgsConstructor;

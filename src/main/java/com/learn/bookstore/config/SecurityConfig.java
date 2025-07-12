@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/test/jwt","/user/register", "/user/login", "/book/category/get/**").permitAll()
-                        .requestMatchers("/user/get/{id}", "/user/get-all", "/book/category/{id}", "/book/category").hasRole("ADMIN")
+                        .requestMatchers("/test/jwt","/user/register", "/user/login", "/book/category/get/**", "/book/author/get/all", "/book/author/get/{name}").permitAll()
+                        .requestMatchers("/user/get/{id}", "/user/get-all", "/book/category/{id}", "/book/category", "/book/author/**").hasRole("ADMIN")
                         .requestMatchers("/test/**", "/user/**").authenticated()
                 );
         http.formLogin(withDefaults());

@@ -1,8 +1,7 @@
-package com.learn.bookstore.models.book;
+package com.learn.bookstore.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.learn.bookstore.models.order.CartItem;
 import jakarta.persistence.*;
 import lombok.*;
 

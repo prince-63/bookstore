@@ -1,10 +1,10 @@
 package com.learn.bookstore.services.impl;
 
-import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
-import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
+import com.learn.bookstore.dto.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.UserUpdateRequestDTO;
 import com.learn.bookstore.exceptions.ResourceNotFoundException;
-import com.learn.bookstore.models.user.Role;
-import com.learn.bookstore.models.user.User;
+import com.learn.bookstore.models.Role;
+import com.learn.bookstore.models.User;
 import com.learn.bookstore.repositories.UserRepository;
 import com.learn.bookstore.services.UserService;
 import lombok.AllArgsConstructor;

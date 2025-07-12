@@ -1,4 +1,4 @@
-package com.learn.bookstore.models.book;
+package com.learn.bookstore.models;
 
 import jakarta.persistence.*;
 import lombok.*;

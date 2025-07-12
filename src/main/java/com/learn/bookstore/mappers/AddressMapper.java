@@ -1,8 +1,8 @@
 package com.learn.bookstore.mappers;
 
-import com.learn.bookstore.dto.user.address.AddressRequestDTO;
-import com.learn.bookstore.dto.user.address.AddressResponseDTO;
-import com.learn.bookstore.models.user.Address;
+import com.learn.bookstore.dto.AddressRequestDTO;
+import com.learn.bookstore.dto.AddressResponseDTO;
+import com.learn.bookstore.models.Address;
 
 public class AddressMapper {
 

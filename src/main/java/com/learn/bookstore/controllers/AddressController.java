@@ -1,10 +1,10 @@
 package com.learn.bookstore.controllers;
 
 import com.learn.bookstore.dto.ResponseDTO;
-import com.learn.bookstore.dto.user.address.AddressRequestDTO;
-import com.learn.bookstore.dto.user.address.AddressResponseDTO;
+import com.learn.bookstore.dto.AddressRequestDTO;
+import com.learn.bookstore.dto.AddressResponseDTO;
 import com.learn.bookstore.mappers.AddressMapper;
-import com.learn.bookstore.models.user.Address;
+import com.learn.bookstore.models.Address;
 import com.learn.bookstore.services.AddressService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

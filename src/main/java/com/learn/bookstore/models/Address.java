@@ -1,7 +1,6 @@
-package com.learn.bookstore.models.user;
+package com.learn.bookstore.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.learn.bookstore.models.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

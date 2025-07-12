@@ -1,10 +1,9 @@
 package com.learn.bookstore.controllers;
 
 import com.learn.bookstore.constants.ApplicationConstants;
-import com.learn.bookstore.dto.ResponseDTO;
-import com.learn.bookstore.dto.user.*;
+import com.learn.bookstore.dto.*;
 import com.learn.bookstore.mappers.UserResponseMapper;
-import com.learn.bookstore.models.user.User;
+import com.learn.bookstore.models.User;
 import com.learn.bookstore.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

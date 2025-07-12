@@ -1,10 +1,7 @@
-package com.learn.bookstore.models.user;
+package com.learn.bookstore.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.learn.bookstore.models.util.BaseEntity;
-import com.learn.bookstore.models.order.CartItem;
-import com.learn.bookstore.models.order.Order;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;

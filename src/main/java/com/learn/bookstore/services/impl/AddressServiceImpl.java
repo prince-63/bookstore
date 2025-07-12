@@ -1,10 +1,10 @@
 package com.learn.bookstore.services.impl;
 
-import com.learn.bookstore.dto.user.address.AddressRequestDTO;
+import com.learn.bookstore.dto.AddressRequestDTO;
 import com.learn.bookstore.exceptions.ResourceNotFoundException;
 import com.learn.bookstore.mappers.AddressMapper;
-import com.learn.bookstore.models.user.Address;
-import com.learn.bookstore.models.user.User;
+import com.learn.bookstore.models.Address;
+import com.learn.bookstore.models.User;
 import com.learn.bookstore.repositories.AddressRepository;
 import com.learn.bookstore.repositories.UserRepository;
 import com.learn.bookstore.services.AddressService;

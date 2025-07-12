@@ -1,8 +1,8 @@
 package com.learn.bookstore.mappers;
 
-import com.learn.bookstore.dto.book.CategoryRequestDTO;
-import com.learn.bookstore.dto.book.CategoryResponseDTO;
-import com.learn.bookstore.models.book.Category;
+import com.learn.bookstore.dto.CategoryRequestDTO;
+import com.learn.bookstore.dto.CategoryResponseDTO;
+import com.learn.bookstore.models.Category;
 
 public class CategoryMapper {
 

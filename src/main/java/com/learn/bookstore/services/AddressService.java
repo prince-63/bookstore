@@ -1,7 +1,7 @@
 package com.learn.bookstore.services;
 
-import com.learn.bookstore.dto.user.address.AddressRequestDTO;
-import com.learn.bookstore.models.user.Address;
+import com.learn.bookstore.dto.AddressRequestDTO;
+import com.learn.bookstore.models.Address;
 
 import java.util.List;
 

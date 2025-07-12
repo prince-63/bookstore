@@ -1,8 +1,8 @@
 package com.learn.bookstore.services;
 
-import com.learn.bookstore.dto.user.RegisterUserRequestDTO;
-import com.learn.bookstore.dto.user.UserUpdateRequestDTO;
-import com.learn.bookstore.models.user.User;
+import com.learn.bookstore.dto.RegisterUserRequestDTO;
+import com.learn.bookstore.dto.UserUpdateRequestDTO;
+import com.learn.bookstore.models.User;
 
 import java.util.List;
 

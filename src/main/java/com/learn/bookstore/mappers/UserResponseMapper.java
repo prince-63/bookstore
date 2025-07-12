@@ -1,8 +1,8 @@
 package com.learn.bookstore.mappers;
 
 
-import com.learn.bookstore.dto.user.UserResponseDTO;
-import com.learn.bookstore.models.user.User;
+import com.learn.bookstore.dto.UserResponseDTO;
+import com.learn.bookstore.models.User;
 
 public class UserResponseMapper {
 
