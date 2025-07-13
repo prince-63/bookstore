@@ -6,10 +6,14 @@ import com.learn.bookstore.dto.ResponseDTO;
 import com.learn.bookstore.mappers.BookMapper;
 import com.learn.bookstore.models.Book;
 import com.learn.bookstore.services.BookService;
+import com.learn.bookstore.services.PresignedUrlGeneratorService;
+import com.learn.bookstore.util.BookFileUtil;
+import com.learn.bookstore.util.CoverImageFileUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 public class BookController {
 
     private final BookService bookService;
+    private final PresignedUrlGeneratorService presignedUrlGeneratorService;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO<BookResponseDTO>> createNewBook(@RequestBody BookRequestDTO requestDTO) {
@@ -29,6 +34,34 @@ public class BookController {
         response.setMessage("Book created successfully");
         response.setData(BookMapper.toDTO(book));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PatchMapping("/upload/cover/image/{bookId}")
+    public ResponseEntity<ResponseDTO<BookResponseDTO>> uploadCoverImage(
+            @RequestParam("imageFile") MultipartFile imageFile,
+            @PathVariable Long bookId
+    ) {
+        CoverImageFileUtil.assertAllowed(imageFile, CoverImageFileUtil.IMAGE_PATTERN);
+        Book updatedBook = presignedUrlGeneratorService.uploadCoverImageFile(imageFile, bookId);
+        ResponseDTO<BookResponseDTO> responseDTO = new ResponseDTO<>();
+        responseDTO.setData(BookMapper.toDTO(updatedBook));
+        responseDTO.setSuccess(true);
+        responseDTO.setMessage("Cover image upload successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+
+    @PatchMapping("/upload/file/{bookId}")
+    public ResponseEntity<ResponseDTO<BookResponseDTO>> uploadBookFile(
+            @RequestParam("bookFile") MultipartFile imageFile,
+            @PathVariable Long bookId
+    ) {
+        BookFileUtil.assertAllowed(imageFile, BookFileUtil.FILE_PATTERN);
+        Book updatedBook = presignedUrlGeneratorService.uploadFile(imageFile, bookId);
+        ResponseDTO<BookResponseDTO> responseDTO = new ResponseDTO<>();
+        responseDTO.setData(BookMapper.toDTO(updatedBook));
+        responseDTO.setSuccess(true);
+        responseDTO.setMessage("Cover image upload successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
     @GetMapping("/get/{id}")

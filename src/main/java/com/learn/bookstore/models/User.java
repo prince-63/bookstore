@@ -37,11 +37,4 @@ public class User extends BaseEntity {
     @JsonManagedReference
     private Set<Address> addresses;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = CartItem.class)
-    @JsonManagedReference
-    private Set<CartItem> cartItems;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Order.class)
-    @JsonManagedReference
-    private Set<Order> orders;
 }

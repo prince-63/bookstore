@@ -37,7 +37,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers(
                                 "/user/get/{id}", "/user/get-all", "/book/category/{id}", "/book/category",
-                                "/book/author/**", "/book/create", "/book/update/{id}", "/book/update/{id}", "/book/delete/{id}"
+                                "/book/author/**", "/book/create", "/book/update/{id}", "/book/update/{id}",
+                                "/book/delete/{id}", "/book/upload/cover/image/{bookId}", "/book/upload/file/{bookId}"
                         ).hasRole("ADMIN")
                         .requestMatchers(
                                 "/test/**", "/user/**"

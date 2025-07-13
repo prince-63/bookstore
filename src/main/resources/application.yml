@@ -9,13 +9,25 @@ spring:
         username: ${DATABASE_USERNAME:root}
         password: ${DATABASE_PASSWORD:root}
     jpa:
-        show-sql: ${JPA_SHOW_SQL:true}
+        show-sql: ${JPA_SHOW_SQL:false}
         properties:
             hibernate:
-                format_sql: ${HIBERNATE_FORMAT_SQL:true}
+                format_sql: ${HIBERNATE_FORMAT_SQL:false}
         hibernate:
             ddl-auto: update
+    servlet:
+        multipart:
+            max-file-size: 500MB
+            max-request-size: 500MB
 
+com:
+    learn:
+        cloudinary:
+            name: ${CLOUDINARY_NAME:duhumawiq}
+            api:
+                key: ${CLOUDINARY_API_KEY:119948159122814}
+                secret: ${CLOUDINARY_API_SECRET:dVF_AkcNk985SqZQcDBYErDHDZI}
+                
 logging:
     level:
         org:
