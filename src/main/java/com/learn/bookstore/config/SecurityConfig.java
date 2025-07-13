@@ -30,9 +30,18 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/test/jwt","/user/register", "/user/login", "/book/category/get/**", "/book/author/get/all", "/book/author/get/{name}").permitAll()
-                        .requestMatchers("/user/get/{id}", "/user/get-all", "/book/category/{id}", "/book/category", "/book/author/**").hasRole("ADMIN")
-                        .requestMatchers("/test/**", "/user/**").authenticated()
+                        .requestMatchers(
+                                "/test/jwt","/user/register","/user/register/admin", "/user/login", "/book/category/get/**",
+                                "/book/author/get/**", "/book/author/get/{name}", "book/author/{id}", "/book/get/{id}",
+                                "/book/get/all", "/book/get/author/{authorId}", "/book/get/category/{categoryId}"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/user/get/{id}", "/user/get-all", "/book/category/{id}", "/book/category",
+                                "/book/author/**", "/book/create", "/book/update/{id}", "/book/update/{id}", "/book/delete/{id}"
+                        ).hasRole("ADMIN")
+                        .requestMatchers(
+                                "/test/**", "/user/**"
+                        ).authenticated()
                 );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());

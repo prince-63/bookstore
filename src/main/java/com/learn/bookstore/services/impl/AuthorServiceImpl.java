@@ -23,6 +23,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public Author getAuthorById(Long id) throws ResourceNotFoundException {
+        return authorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author", "id", id.toString()));
+    }
+
+    @Override
     public List<Author> getAuthorByName(String name) {
         return authorRepository.findAllByNameIgnoreCase(name);
     }

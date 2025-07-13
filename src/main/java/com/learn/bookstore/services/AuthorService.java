@@ -9,6 +9,8 @@ public interface AuthorService {
 
     Author createAuthor(AuthorRequestDTO author);
 
+    Author getAuthorById(Long id);
+
     List<Author> getAuthorByName(String name);
 
     List<Author> getAllAuthors();

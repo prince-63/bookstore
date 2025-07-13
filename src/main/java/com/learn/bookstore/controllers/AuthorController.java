@@ -31,6 +31,21 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @GetMapping("/author/{id}")
+    public ResponseEntity<ResponseDTO<AuthorResponseDTO>> getAuthor(@PathVariable("id") Long id) {
+        Author author = authorService.getAuthorById(id);
+        if (author.getId() > 0) {
+            AuthorResponseDTO authorResponseDTO = AuthorMapper.toDTO(author);
+            ResponseDTO<AuthorResponseDTO> response = new ResponseDTO<>();
+            response.setSuccess(true);
+            response.setMessage("Author found successfully");
+            response.setData(authorResponseDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
     @GetMapping("/author/get/{name}")
     public ResponseEntity<ResponseDTO<List<AuthorResponseDTO>>> getAuthorByName(@PathVariable("name") String name) {
         List<Author> authors = authorService.getAuthorByName(name);
