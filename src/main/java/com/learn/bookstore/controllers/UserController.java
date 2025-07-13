@@ -43,6 +43,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PostMapping("/register/admin")
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> registerAdmin(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+        User user = userService.registerAdmin(registerUserRequestDTO);
+        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
+        response.setData(UserResponseMapper.toDTO(user));
+        response.setSuccess(true);
+        response.setMessage("Admin Registration successful.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         String jwt;

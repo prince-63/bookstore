@@ -33,16 +33,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User registerAdmin(RegisterUserRequestDTO adminUser) {
+        String hashPwd = passwordEncoder.encode(adminUser.password());
+        User user = User.builder()
+                .name(adminUser.name())
+                .email(adminUser.email())
+                .password(hashPwd)
+                .role(Role.ADMIN)
+                .build();
+        return userRepository.save(user);
+    }
+
+    @Override
     public User getUserById(Long id) throws ResourceNotFoundException {
         return userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("User","userId", id.toString())
+                () -> new ResourceNotFoundException("User", "userId", id.toString())
         );
     }
 
     @Override
     public User findByEmail(String email) throws ResourceNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User","email", email)
+                () -> new ResourceNotFoundException("User", "email", email)
         );
     }
 
@@ -54,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addPhoneNumber(String email, String phone) throws ResourceNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User","email", email)
+                () -> new ResourceNotFoundException("User", "email", email)
         );
         user.setPhone(phone);
         return userRepository.save(user);
@@ -63,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String email) throws ResourceNotFoundException {
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User","email", email)
+                () -> new ResourceNotFoundException("User", "email", email)
         );
         userRepository.delete(user);
     }
@@ -71,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(String email, UserUpdateRequestDTO user) throws ResourceNotFoundException {
         User dbUser = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User","email", email)
+                () -> new ResourceNotFoundException("User", "email", email)
         );
         dbUser.setEmail(user.email() != null ? user.email() : dbUser.getEmail());
         dbUser.setName(user.name() != null ? user.name() : dbUser.getName());

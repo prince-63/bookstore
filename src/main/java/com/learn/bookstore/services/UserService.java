@@ -10,6 +10,8 @@ public interface UserService {
 
     User register(RegisterUserRequestDTO user);
 
+    User registerAdmin(RegisterUserRequestDTO adminUser);
+
     User getUserById(Long id);
 
     User findByEmail(String email);
