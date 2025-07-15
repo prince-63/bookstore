@@ -1,6 +1,7 @@
 package com.learn.bookstore.controllers;
 
 import com.learn.bookstore.constants.ApplicationConstants;
+import com.learn.bookstore.constants.UserEndPointsConstants;
 import com.learn.bookstore.dto.*;
 import com.learn.bookstore.mappers.UserResponseMapper;
 import com.learn.bookstore.models.User;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
 @AllArgsConstructor
 public class UserController {
 
@@ -33,7 +33,7 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final Environment environment;
 
-    @PostMapping("/register")
+    @PostMapping(UserEndPointsConstants.REGISTER_USER)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         User user = userService.register(registerUserRequestDTO);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("/register/admin")
+    @PostMapping(UserEndPointsConstants.REGISTER_ADMIN)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> registerAdmin(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         User user = userService.registerAdmin(registerUserRequestDTO);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
@@ -53,7 +53,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("/login")
+    @PostMapping(UserEndPointsConstants.LOGIN)
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         String jwt;
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(loginRequestDTO.username(), loginRequestDTO.password());
@@ -79,7 +79,7 @@ public class UserController {
         return null;
     };
 
-    @GetMapping("/get/{id}")
+    @GetMapping(UserEndPointsConstants.GET_USER_BY_ID)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
@@ -89,7 +89,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/get-curr")
+    @GetMapping(UserEndPointsConstants.GET_CURR_USER)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getCurrUser(Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
@@ -99,7 +99,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping(UserEndPointsConstants.GET_ALL_USERS)
     public ResponseEntity<ResponseDTO<List<UserResponseDTO>>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         ResponseDTO<List<UserResponseDTO>> response = new ResponseDTO<>();
@@ -109,7 +109,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PatchMapping("/add-phone")
+    @PatchMapping(UserEndPointsConstants.ADD_PHONE_NUMBER)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> addPhoneNumber(Authentication authentication, @RequestBody UserPhoneNumberUpdateRequestDTO phoneNumber) {
         User user = userService.addPhoneNumber(authentication.getName(), phoneNumber.phoneNumber());
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
@@ -119,7 +119,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping(UserEndPointsConstants.DELETE_USER_ADMIN)
     public ResponseEntity<ResponseDTO<String>> deleteUser(Authentication authentication) {
         userService.deleteUser(authentication.getName());
         ResponseDTO<String> response = new ResponseDTO<>();
@@ -129,7 +129,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping(UserEndPointsConstants.UPDATE_USER_ADMIN)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> updateUser(Authentication authentication, @RequestBody UserUpdateRequestDTO user) {
         User updatedUser = userService.updateUser(authentication.getName(), user);
         ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
