@@ -1,8 +1,13 @@
 package com.learn.bookstore.config;
 
+import com.learn.bookstore.constants.BookEndPointsConstants;
+import com.learn.bookstore.constants.SwaggerEndPointsConstants;
+import com.learn.bookstore.constants.UserEndPointsConstants;
+import com.learn.bookstore.constants.WelcomeEndPointsConstants;
 import com.learn.bookstore.filters.CsrfCookieFilter;
 import com.learn.bookstore.filters.JWTTokenGeneratorFilter;
 import com.learn.bookstore.filters.JWTTokenValidatorFilter;
+import com.learn.bookstore.models.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,26 +49,61 @@ public class SecurityConfig {
                     return config;
                 }))
                 .csrf(csrfConfig -> csrfConfig.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
-                        .ignoringRequestMatchers("/user/register", "/user/login", "/user/register/admin")
+                        .ignoringRequestMatchers(
+                                UserEndPointsConstants.LOGIN,
+                                UserEndPointsConstants.REGISTER_USER,
+                                UserEndPointsConstants.REGISTER_ADMIN
+                                )
+                        .ignoringRequestMatchers(SwaggerEndPointsConstants.SWAGGER_WHITELIST)
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-                .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP
+                .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure())
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                                "/test/jwt","/user/register","/user/register/admin", "/user/login", "/book/category/get/**",
-                                "/book/author/get/**", "/book/author/get/{name}", "book/author/{id}", "/book/get/{id}",
-                                "/book/get/all", "/book/get/author/{authorId}", "/book/get/category/{categoryId}"
+                                WelcomeEndPointsConstants.WELCOME,
+                                UserEndPointsConstants.LOGIN,
+                                UserEndPointsConstants.REGISTER_USER,
+                                UserEndPointsConstants.REGISTER_ADMIN
                         ).permitAll()
+                        .requestMatchers(SwaggerEndPointsConstants.SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(
-                                "/user/get/{id}", "/user/get-all", "/book/category/{id}", "/book/category",
-                                "/book/author/**", "/book/create", "/book/update/{id}", "/book/update/{id}",
-                                "/book/delete/{id}", "/book/upload/cover/image/{bookId}", "/book/upload/file/{bookId}"
-                        ).hasRole("ADMIN")
+                                UserEndPointsConstants.GET_USER_BY_ID,
+                                UserEndPointsConstants.GET_ALL_USERS,
+                                BookEndPointsConstants.CREATE_AUTHOR,
+                                BookEndPointsConstants.UPDATE_AUTHOR_BY_ID,
+                                BookEndPointsConstants.DELETE_AUTHOR_BY_ID,
+                                BookEndPointsConstants.CREATE_CATEGORY,
+                                BookEndPointsConstants.UPDATE_CATEGORY_BY_ID,
+                                BookEndPointsConstants.DELETE_CATEGORY_BY_ID,
+                                BookEndPointsConstants.CREATE_NEW_BOOK,
+                                BookEndPointsConstants.UPLOAD_COVER_BOOK_IMAGE,
+                                BookEndPointsConstants.UPLOAD_BOOK_FILE,
+                                BookEndPointsConstants.UPDATE_BOOK_BY_ID,
+                                BookEndPointsConstants.DELETE_BOOK_BY_ID
+
+                        ).hasRole(Role.ADMIN.name())
                         .requestMatchers(
-                                "/test/**", "/user/**"
+                                UserEndPointsConstants.GET_CURR_USER,
+                                UserEndPointsConstants.ADD_PHONE_NUMBER,
+                                UserEndPointsConstants.UPDATE_USER_ADMIN,
+                                UserEndPointsConstants.DELETE_USER_ADMIN,
+                                UserEndPointsConstants.ADD_USER_ADDRESS,
+                                UserEndPointsConstants.GET_USER_ADDRESS,
+                                UserEndPointsConstants.UPDATE_ADDRESS_BY_ID,
+                                UserEndPointsConstants.DELETE_ADDRESS_BY_ID,
+                                BookEndPointsConstants.GET_AUTHOR_BY_ID,
+                                BookEndPointsConstants.GET_AUTHORS_BY_NAME,
+                                BookEndPointsConstants.GET_ALL_AUTHORS,
+                                BookEndPointsConstants.GET_CATEGORY_BY_ID,
+                                BookEndPointsConstants.GET_ALL_CATEGORIES,
+                                BookEndPointsConstants.GET_BOOK_BY_ID,
+                                BookEndPointsConstants.GET_ALL_BOOKS,
+                                BookEndPointsConstants.GET_BOOK_BY_CATEGORY_ID,
+                                BookEndPointsConstants.GET_BOOK_BY_AUTHOR_ID
                         ).authenticated()
+                        .anyRequest().denyAll()
                 );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());

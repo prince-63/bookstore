@@ -1,6 +1,7 @@
 package com.learn.bookstore.filters;
 
 import com.learn.bookstore.constants.ApplicationConstants;
+import com.learn.bookstore.constants.UserEndPointsConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -45,6 +46,6 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/test/jwt");
+        return request.getServletPath().equals(UserEndPointsConstants.REGISTER_USER) || request.getServletPath().equals(UserEndPointsConstants.REGISTER_ADMIN) || request.getServletPath().equals(UserEndPointsConstants.LOGIN);
     }
 }
