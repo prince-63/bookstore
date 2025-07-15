@@ -8,6 +8,12 @@ import com.learn.bookstore.models.User;
 import com.learn.bookstore.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -25,6 +31,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(
+        name = "User Management APIs",
+        description = "Endpoints for user registration, login, profile update, and admin operations"
+)
 @RestController
 @AllArgsConstructor
 public class UserController {
@@ -33,6 +43,12 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final Environment environment;
 
+    @Operation(summary = "Register a new user", description = "Creates a new user account with default USER role.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PostMapping(UserEndPointsConstants.REGISTER_USER)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         User user = userService.register(registerUserRequestDTO);
@@ -43,6 +59,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Register a new admin", description = "Creates a new admin account with elevated privileges.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Admin registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PostMapping(UserEndPointsConstants.REGISTER_ADMIN)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> registerAdmin(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         User user = userService.registerAdmin(registerUserRequestDTO);
@@ -53,6 +75,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Login user", description = "Authenticates a user and returns a JWT token in the Authorization header.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login successful. JWT token returned in header"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PostMapping(UserEndPointsConstants.LOGIN)
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
         String jwt;
@@ -79,6 +107,12 @@ public class UserController {
         return null;
     };
 
+    @Operation(summary = "Get user by ID", description = "Retrieves user details using user ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User data retrieved"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @GetMapping(UserEndPointsConstants.GET_USER_BY_ID)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
@@ -89,6 +123,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(summary = "Get current user", description = "Fetches the currently authenticated user's details.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User data retrieved"),
+            @ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @GetMapping(UserEndPointsConstants.GET_CURR_USER)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> getCurrUser(Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
@@ -99,6 +139,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(summary = "Get all users", description = "Returns a list of all users in the system (admin only).")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "All users retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied for non-admins"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @GetMapping(UserEndPointsConstants.GET_ALL_USERS)
     public ResponseEntity<ResponseDTO<List<UserResponseDTO>>> getAllUsers() {
         List<User> users = userService.getAllUsers();
@@ -109,6 +155,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(summary = "Add or update phone number", description = "Allows user to add or update their phone number.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Phone number updated"),
+            @ApiResponse(responseCode = "400", description = "Invalid phone number format"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PatchMapping(UserEndPointsConstants.ADD_PHONE_NUMBER)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> addPhoneNumber(Authentication authentication, @RequestBody UserPhoneNumberUpdateRequestDTO phoneNumber) {
         User user = userService.addPhoneNumber(authentication.getName(), phoneNumber.phoneNumber());
@@ -119,16 +171,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping(UserEndPointsConstants.DELETE_USER_ADMIN)
-    public ResponseEntity<ResponseDTO<String>> deleteUser(Authentication authentication) {
-        userService.deleteUser(authentication.getName());
-        ResponseDTO<String> response = new ResponseDTO<>();
-        response.setSuccess(true);
-        response.setMessage("User deleted successfully.");
-        response.setData(String.format("User deleted successfully: %s", authentication.getName()));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
+    @Operation(summary = "Update user profile", description = "Updates the authenticated user's profile information.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PatchMapping(UserEndPointsConstants.UPDATE_USER_ADMIN)
     public ResponseEntity<ResponseDTO<UserResponseDTO>> updateUser(Authentication authentication, @RequestBody UserUpdateRequestDTO user) {
         User updatedUser = userService.updateUser(authentication.getName(), user);
@@ -136,6 +185,22 @@ public class UserController {
         response.setData(UserResponseMapper.toDTO(updatedUser));
         response.setSuccess(true);
         response.setMessage("User updated successfully.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @Operation(summary = "Delete user", description = "Deletes the currently authenticated user.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
+    @DeleteMapping(UserEndPointsConstants.DELETE_USER_ADMIN)
+    public ResponseEntity<ResponseDTO<String>> deleteUser(Authentication authentication) {
+        userService.deleteUser(authentication.getName());
+        ResponseDTO<String> response = new ResponseDTO<>();
+        response.setSuccess(true);
+        response.setMessage("User deleted successfully.");
+        response.setData(String.format("User deleted successfully: %s", authentication.getName()));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

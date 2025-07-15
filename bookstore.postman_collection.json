@@ -1,0 +1,1215 @@
+{
+	"info": {
+		"_postman_id": "040db5e8-eeac-447e-a887-af735c2b8de7",
+		"name": "bookstore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42434904"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prince Kumar Prasad\",\r\n    \"email\": \"prince08833@gmail.com\",\r\n    \"password\": \"prince@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/register",
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-user-by-id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/user/get/5",
+							"path": [
+								"user",
+								"get",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/user/get-all",
+							"path": [
+								"user",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-curr-user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/user/get-curr",
+							"path": [
+								"user",
+								"get-curr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-phone-number",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": \"+916290261635\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/add-phone",
+							"path": [
+								"user",
+								"add-phone"
+							],
+							"query": [
+								{
+									"key": "phoneNumber",
+									"value": "916289296197",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/delete",
+							"path": [
+								"user",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prince\",\r\n    \"email\": \"prince08833@gmail.com\",\r\n    \"phone\": \"+916289296197\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/update",
+							"path": [
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "jwt-test",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "prince@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "prince08833@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib29rc3RvcmUiLCJzdWIiOiJKV1QgVG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc1MjU0MjA2NCwiZXhwIjoxNzUyNTcyMDY0fQ.j5K55gCUHUm80mBPxh9YZ4L6rESrTMvk9joxqsYOn6Y",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "/test/jwt",
+							"path": [
+								"test",
+								"jwt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//     \"username\": \"admin@gmail.com\",\r\n//     \"password\": \"admin@1234\"\r\n// }\r\n\r\n{\r\n    \"username\": \"prince08833@gmail.com\",\r\n    \"password\": \"prince@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/login",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register-admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prince Kumar Prasad\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/register/admin",
+							"path": [
+								"user",
+								"register",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "address",
+			"item": [
+				{
+					"name": "add-address",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line1\": \"221B Baker Street\",\r\n    \"line2\": \"Apartment B\",\r\n    \"city\": \"London\",\r\n    \"state\": \"Greater London\",\r\n    \"postalCode\": \"NW1 6XE\",\r\n    \"country\": \"United Kingdom\",\r\n    \"isDefault\": true,\r\n    \"type\": \"SHIPPING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/address",
+							"path": [
+								"user",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-address",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/user/address",
+							"path": [
+								"user",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-address",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line1\": \"221B Baker Street\",\r\n    \"line2\": \"Apartment B\",\r\n    \"city\": \"London\",\r\n    \"state\": \"Greater London\",\r\n    \"postalCode\": \"NW1 6XE\",\r\n    \"country\": \"United Kingdom\",\r\n    \"isDefault\": true,\r\n    \"type\": \"SHIPPING\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/user/address/1",
+							"path": [
+								"user",
+								"address",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-address",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/user/address/1",
+							"path": [
+								"user",
+								"address",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "create-category",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Science Fiction\",\r\n    \"description\": \"Futuristic technology and space books\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/category",
+							"path": [
+								"book",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/category/get/all",
+							"path": [
+								"book",
+								"category",
+								"get",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-category-by-id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/category/get/1",
+							"path": [
+								"book",
+								"category",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-category",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Anime\",\r\n    \"description\": \"Futuristic technology and space books\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/category/2",
+							"path": [
+								"book",
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-category",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/category/1",
+							"path": [
+								"book",
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "author",
+			"item": [
+				{
+					"name": "create-author",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Haruki Murakami\",\r\n    \"bio\": \"Japanese novelist blending surrealism, jazz, and magical realism.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/author",
+							"path": [
+								"book",
+								"author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-authors-by-name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Haruki Murakami\",\r\n    \"bio\": \"Japanese novelist blending surrealism, jazz, and magical realism.\"\r\n}"
+						},
+						"url": {
+							"raw": "/book/author/get-by-name/Haruki Murakami",
+							"path": [
+								"book",
+								"author",
+								"get-by-name",
+								"Haruki Murakami"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-authors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Haruki Murakami\",\r\n    \"bio\": \"Japanese novelist blending surrealism, jazz, and magical realism.\"\r\n}"
+						},
+						"url": {
+							"raw": "/book/author/get/all",
+							"path": [
+								"book",
+								"author",
+								"get",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-author",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Chinua Achebe\",\r\n    \"bio\": \"Nigerian author of 'Things Fall Apart'. Father of African literature.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/author/2",
+							"path": [
+								"book",
+								"author",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-author",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Chinua Achebe\",\r\n    \"bio\": \"Nigerian author of 'Things Fall Apart'. Father of African literature.\"\r\n}"
+						},
+						"url": {
+							"raw": "/book/author/1",
+							"path": [
+								"book",
+								"author",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-author-by-id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Haruki Murakami\",\r\n    \"bio\": \"Japanese novelist blending surrealism, jazz, and magical realism.\"\r\n}"
+						},
+						"url": {
+							"raw": "/book/author/get/2",
+							"path": [
+								"book",
+								"author",
+								"get",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-authors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Haruki Murakami\",\r\n    \"bio\": \"Japanese novelist blending surrealism, jazz, and magical realism.\"\r\n}"
+						},
+						"url": {
+							"raw": "/book/author/get/all",
+							"path": [
+								"book",
+								"author",
+								"get",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "book",
+			"item": [
+				{
+					"name": "create-book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Foundation\",\r\n  \"description\": \"A visionary science fiction novel by Isaac Asimov, exploring the fall and rise of a galactic empire.\",\r\n  \"publisher\": \"Spectra\",\r\n  \"price\": 499.99,\r\n  \"stock\": 30,\r\n  \"publicationDate\": \"1951-06-01\",\r\n  \"categoryId\": 2,\r\n  \"authorId\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/create-new",
+							"path": [
+								"book",
+								"create-new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-books",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/get/all",
+							"path": [
+								"book",
+								"get",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-book-by-id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/get/1",
+							"path": [
+								"book",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-book-by-category-id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/get/category/2",
+							"path": [
+								"book",
+								"get",
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-book-by-author-id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{USER_JWT}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/book/get/author/2",
+							"path": [
+								"book",
+								"get",
+								"author",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-book",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Harry Potter and the Sorcerer's Stone\",\r\n    \"isbn\": \"9780439708180\",\r\n    \"description\": \"The first novel in the Harry Potter series by J.K. Rowling.\",\r\n    \"publisher\": \"Bloomsbury\",\r\n    \"price\": 349.50,\r\n    \"stock\": 100,\r\n    \"publicationDate\": \"1997-06-26\",\r\n    \"categoryId\": 2,\r\n    \"authorId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/update/1",
+							"path": [
+								"book",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-book",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/book/delete/1",
+							"path": [
+								"book",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cover-image-upload",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "postman-cloud:///1f05fe7e-3105-4d70-ae50-76d9cdf6d1ec"
+								},
+								{
+									"key": "imageTitle",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "/book/upload/cover/image/2",
+							"path": [
+								"book",
+								"upload",
+								"cover",
+								"image",
+								"2"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cover-image-upload Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN_JWT}}",
+								"type": "text"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "bookFile",
+									"type": "file",
+									"src": "postman-cloud:///1f0614d2-7a5f-48d0-9a25-2f1b0d7f0626"
+								}
+							]
+						},
+						"url": {
+							"raw": "/book/upload/file/2",
+							"path": [
+								"book",
+								"upload",
+								"file",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "welcome",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "/test/say-welcome",
+					"path": [
+						"test",
+						"say-welcome"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.url.protocol=\"http\";\r",
+					"pm.request.url.host=\"localhost\";\r",
+					"pm.request.url.port=\"8080\";"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ADMIN_JWT",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib29rc3RvcmUiLCJzdWIiOiJKV1QgVG9rZW4iLCJ1c2VybmFtZSI6ImFkbWluQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTc1MjU1NDM3NCwiZXhwIjoxNzUyNTg0Mzc0fQ.LZnJNfV9Mb3Ig1oA2474wgZYIdxbc_iov2LGmveni0M",
+			"type": "default"
+		},
+		{
+			"key": "USER_JWT",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJib29rc3RvcmUiLCJzdWIiOiJKV1QgVG9rZW4iLCJ1c2VybmFtZSI6InByaW5jZTA4ODMzQGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzUyNTU4MTc5LCJleHAiOjE3NTI1ODgxNzl9.CZbO8uzMHWzR-uidUa5cu7Vk2gl8z5Wani4vBPsrBfA",
+			"type": "default"
+		},
+		{
+			"key": "XSRF_TOKEN",
+			"value": "ee8ce257-79ec-4b10-a834-3d8de039aa41",
+			"type": "default"
+		}
+	]
+}
