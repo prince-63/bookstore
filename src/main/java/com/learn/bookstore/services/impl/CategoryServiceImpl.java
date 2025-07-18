@@ -24,10 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id) throws ResourceNotFoundException {
-        return categoryRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Category", "id", id.toString())
-        );
+    public Category getCategoryById(Long id) {
+        return getById(id);
     }
 
     @Override
@@ -36,10 +34,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long id, CategoryRequestDTO requestDTO) throws ResourceNotFoundException {
-        Category oldCategory = categoryRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Category", "id", id.toString())
-        );
+    public Category updateCategory(Long id, CategoryRequestDTO requestDTO) {
+        Category oldCategory = getById(id);
 
         Category category = CategoryMapper.toModel(requestDTO);
         oldCategory.setName(category.getName() != null ? category.getName() : oldCategory.getName());
@@ -48,10 +44,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) throws ResourceNotFoundException {
-        Category oldCategory = categoryRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Category", "id", id.toString())
-        );
+    public void deleteCategory(Long id) {
+        Category oldCategory = getById(id);
         categoryRepository.delete(oldCategory);
+    }
+
+    private Category getById(Long id) throws ResourceNotFoundException {
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category", "id", id.toString()));
     }
 }

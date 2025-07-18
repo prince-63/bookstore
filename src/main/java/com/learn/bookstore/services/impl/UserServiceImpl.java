@@ -52,10 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) throws ResourceNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User", "email", email)
-        );
+    public User findByEmail(String email) {
+        return getByEmail(email);
     }
 
     @Override
@@ -64,31 +62,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addPhoneNumber(String email, String phone) throws ResourceNotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User", "email", email)
-        );
+    public User addPhoneNumber(String email, String phone) {
+        User user = getByEmail(email);
         user.setPhone(phone);
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(String email) throws ResourceNotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User", "email", email)
-        );
+    public void deleteUser(String email) {
+        User user = getByEmail(email);
         userRepository.delete(user);
     }
 
     @Override
-    public User updateUser(String email, UserUpdateRequestDTO user) throws ResourceNotFoundException {
-        User dbUser = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("User", "email", email)
-        );
+    public User updateUser(String email, UserUpdateRequestDTO user) {
+        User dbUser = getByEmail(email);
         dbUser.setEmail(user.email() != null ? user.email() : dbUser.getEmail());
         dbUser.setName(user.name() != null ? user.name() : dbUser.getName());
         dbUser.setPhone(user.phone() != null ? user.phone() : dbUser.getPhone());
         return userRepository.save(dbUser);
+    }
+
+    private User getByEmail(String email) throws ResourceNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User", "email", email)
+        );
     }
 
 }

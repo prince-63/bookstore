@@ -34,8 +34,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBookById(Long id) throws ResourceNotFoundException {
-        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id.toString()));
+    public Book getBookById(Long id) {
+        return getById(id);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book updateBook(Long id, BookRequestDTO updatedBook) throws ResourceNotFoundException {
-        Book dbBook = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id.toString()));
+    public Book updateBook(Long id, BookRequestDTO updatedBook) {
+        Book dbBook = getById(id);
         Category category = categoryService.getCategoryById(updatedBook.categoryId());
         Author author = authorService.getAuthorById(updatedBook.authorId());
         dbBook.setAuthor(author);
@@ -73,8 +73,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteBook(Long id) throws ResourceNotFoundException {
-        Book dbBook = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id.toString()));
+    public void deleteBook(Long id) {
+        Book dbBook = getById(id);
         bookRepository.deleteById(dbBook.getId());
+    }
+
+    private Book getById(Long id) throws ResourceNotFoundException {
+        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "id", id.toString()));
     }
 }
