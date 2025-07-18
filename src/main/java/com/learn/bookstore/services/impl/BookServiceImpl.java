@@ -68,8 +68,6 @@ public class BookServiceImpl implements BookService {
         dbBook.setTitle(updatedBook.title() != null  ? updatedBook.title() : dbBook.getTitle());
         dbBook.setDescription(updatedBook.description() != null ? updatedBook.description() : dbBook.getDescription());
         dbBook.setPublicationDate(updatedBook.publicationDate() != null ? updatedBook.publicationDate() : dbBook.getPublicationDate());
-        dbBook.setPrice(updatedBook.price() > 0 ? updatedBook.price() : dbBook.getPrice());
-        dbBook.setStock(updatedBook.stock() > 0 ? updatedBook.stock() : dbBook.getStock());
         dbBook.setPublisher(updatedBook.publisher() != null ? updatedBook.publisher() : dbBook.getPublisher());
         return bookRepository.save(dbBook);
     }
