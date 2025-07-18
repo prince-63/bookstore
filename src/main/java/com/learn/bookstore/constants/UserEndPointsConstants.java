@@ -15,11 +15,4 @@ public class UserEndPointsConstants {
     public static final String UPDATE_USER_ADMIN =  BASE_USER + "/update";
     public static final String DELETE_USER_ADMIN =  BASE_USER + "/delete";
 
-    // ADDRESS END-POINTS
-    public static final String ADD_USER_ADDRESS =  BASE_USER + "/address";
-    public static final String GET_USER_ADDRESS =  BASE_USER + "/address";
-    public static final String UPDATE_ADDRESS_BY_ID =  BASE_USER + "/address/{id}";
-    public static final String DELETE_ADDRESS_BY_ID =  BASE_USER + "/address/{id}";
-
-
 }

@@ -1,13 +1,9 @@
 package com.learn.bookstore.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Set;
 
 @Builder
 @Entity
@@ -37,12 +33,7 @@ public class User extends BaseEntity {
     @Schema(description = "Role of the user", example = "USER", allowableValues = {"USER", "ADMIN"})
     private Role role;
 
-    @Nullable
     @Schema(description = "Phone number of the user", example = "+91-9876543210")
     private String phone;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Address.class)
-    @JsonManagedReference
-    @Schema(description = "Set of addresses associated with the user")
-    private Set<Address> addresses;
 }
