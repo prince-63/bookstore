@@ -20,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Tag(
         name = "Author Management APIs",
@@ -42,10 +41,7 @@ public class AuthorController {
     @PostMapping(BookEndPointsConstants.CREATE_AUTHOR)
     public ResponseEntity<ResponseDTO<AuthorResponseDTO>>createAuthor(@RequestBody AuthorRequestDTO author) {
         Author savedAuthor = authorService.createAuthor(author);
-        ResponseDTO<AuthorResponseDTO> response = new ResponseDTO<>();
-        response.setSuccess(true);
-        response.setMessage("Author created successfully");
-        response.setData(AuthorMapper.toDTO(savedAuthor));
+        var response = buildResponse("Author created successfully", savedAuthor);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -60,11 +56,7 @@ public class AuthorController {
     public ResponseEntity<ResponseDTO<AuthorResponseDTO>> getAuthor(@PathVariable("id") Long id) {
         Author author = authorService.getAuthorById(id);
         if (author.getId() > 0) {
-            AuthorResponseDTO authorResponseDTO = AuthorMapper.toDTO(author);
-            ResponseDTO<AuthorResponseDTO> response = new ResponseDTO<>();
-            response.setSuccess(true);
-            response.setMessage("Author found successfully");
-            response.setData(authorResponseDTO);
+            var response =  buildResponse("Author retrieved successfully", author);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -80,7 +72,8 @@ public class AuthorController {
     @GetMapping(BookEndPointsConstants.GET_AUTHORS_BY_NAME)
     public ResponseEntity<ResponseDTO<List<AuthorResponseDTO>>> getAuthorByName(@PathVariable("name") String name) {
         List<Author> authors = authorService.getAuthorByName(name);
-        return getResponseDTOResponseEntity(authors);
+        var response = buildResponseList(authors);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @Operation(summary = "Get All Authors", description = "Fetches a list of all authors.")
@@ -92,7 +85,8 @@ public class AuthorController {
     @GetMapping(BookEndPointsConstants.GET_ALL_AUTHORS)
     public ResponseEntity<ResponseDTO<List<AuthorResponseDTO>>> getAllAuthors() {
         List<Author> authors = authorService.getAllAuthors();
-        return getResponseDTOResponseEntity(authors);
+        var response = buildResponseList(authors);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @Operation(summary = "Update Author", description = "Updates author details using the author ID.")
@@ -105,10 +99,7 @@ public class AuthorController {
     @PatchMapping(BookEndPointsConstants.UPDATE_AUTHOR_BY_ID)
     public ResponseEntity<ResponseDTO<AuthorResponseDTO>> updateAuthor(@PathVariable("id") Long id, @RequestBody AuthorRequestDTO author) {
         Author updatedAuthor = authorService.updateAuthor(id, author);
-        ResponseDTO<AuthorResponseDTO> response = new ResponseDTO<>();
-        response.setSuccess(true);
-        response.setMessage("Author updated successfully");
-        response.setData(AuthorMapper.toDTO(updatedAuthor));
+        var response =  buildResponse("Author updated successfully", updatedAuthor);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -129,11 +120,11 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    private ResponseEntity<ResponseDTO<List<AuthorResponseDTO>>> getResponseDTOResponseEntity(List<Author> authors) {
-        ResponseDTO<List<AuthorResponseDTO>> response = new ResponseDTO<>();
-        response.setSuccess(true);
-        response.setMessage("Authors found");
-        response.setData(authors.stream().map(AuthorMapper::toDTO).collect(Collectors.toList()));
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+    private ResponseDTO<List<AuthorResponseDTO>> buildResponseList(List<Author> authors) {
+        return new ResponseDTO<>("Authors retrieved successfully", true, authors.stream().map(AuthorMapper::toDTO).toList());
+    }
+
+    private ResponseDTO<AuthorResponseDTO> buildResponse(String message, Author author) {
+        return new ResponseDTO<>(message, true, AuthorMapper.toDTO(author));
     }
 }

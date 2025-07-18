@@ -20,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Tag(name = "Category Management APIs", description = "Operations for managing category, including CRUD, create, update, delete")
@@ -39,10 +38,7 @@ public class CategoryController {
     @PostMapping(BookEndPointsConstants.CREATE_CATEGORY)
     public ResponseEntity<ResponseDTO<CategoryResponseDTO>> createCategory(@RequestBody CategoryRequestDTO requestDTO) {
         Category createdCategory = categoryService.createCategory(requestDTO);
-        ResponseDTO<CategoryResponseDTO> response = new ResponseDTO<>();
-        response.setData(CategoryMapper.toDTO(createdCategory));
-        response.setSuccess(true);
-        response.setMessage("Category created successfully");
+        var response = buildResponse("Category created successfully", createdCategory);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -55,10 +51,7 @@ public class CategoryController {
     @GetMapping(BookEndPointsConstants.GET_CATEGORY_BY_ID)
     public ResponseEntity<ResponseDTO<CategoryResponseDTO>> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
-        ResponseDTO<CategoryResponseDTO> response = new ResponseDTO<>();
-        response.setData(CategoryMapper.toDTO(category));
-        response.setSuccess(true);
-        response.setMessage("Category retrieved successfully.");
+        var response = buildResponse("Category retrieved successfully", category);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -70,10 +63,7 @@ public class CategoryController {
     @GetMapping(BookEndPointsConstants.GET_ALL_CATEGORIES)
     public ResponseEntity<ResponseDTO<List<CategoryResponseDTO>>> getAllCategories() {
         List<Category> categories = categoryService.getAllCategories();
-        ResponseDTO<List<CategoryResponseDTO>> response = new ResponseDTO<>();
-        response.setData(categories.stream().map(CategoryMapper::toDTO).collect(Collectors.toList()));
-        response.setSuccess(true);
-        response.setMessage("All categories retrieved successfully.");
+        var response = buildResponseList(categories);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -87,10 +77,7 @@ public class CategoryController {
     @PatchMapping(BookEndPointsConstants.UPDATE_CATEGORY_BY_ID)
     public ResponseEntity<ResponseDTO<CategoryResponseDTO>> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDTO category) {
         Category updatedCategory = categoryService.updateCategory(id, category);
-        ResponseDTO<CategoryResponseDTO> response = new ResponseDTO<>();
-        response.setData(CategoryMapper.toDTO(updatedCategory));
-        response.setSuccess(true);
-        response.setMessage("Category updated successfully.");
+        var response = buildResponse("Category updated successfully", updatedCategory);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -108,6 +95,14 @@ public class CategoryController {
         response.setSuccess(true);
         response.setMessage("Category deleted successfully.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    private ResponseDTO<List<CategoryResponseDTO>> buildResponseList( List<Category> categories) {
+        return new ResponseDTO<>("Categories retrieved successful", true, categories.stream().map(CategoryMapper::toDTO).toList());
+    }
+
+    private ResponseDTO<CategoryResponseDTO> buildResponse(String message, Category category) {
+        return new ResponseDTO<>(message, true, CategoryMapper.toDTO(category));
     }
 
 }

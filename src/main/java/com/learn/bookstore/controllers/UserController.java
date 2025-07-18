@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -50,12 +51,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PostMapping(UserEndPointsConstants.REGISTER_USER)
-    public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> registerUser(
+            @RequestBody @Valid RegisterUserRequestDTO registerUserRequestDTO
+    ) {
         User user = userService.register(registerUserRequestDTO);
-        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.toDTO(user));
-        response.setSuccess(true);
-        response.setMessage("Registration successful.");
+        var response = buildResponse("Registration successful.", user);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -66,12 +66,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PostMapping(UserEndPointsConstants.REGISTER_ADMIN)
-    public ResponseEntity<ResponseDTO<UserResponseDTO>> registerAdmin(@RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> registerAdmin(
+            @RequestBody @Valid RegisterUserRequestDTO registerUserRequestDTO
+    ) {
         User user = userService.registerAdmin(registerUserRequestDTO);
-        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.toDTO(user));
-        response.setSuccess(true);
-        response.setMessage("Admin Registration successful.");
+        var response = buildResponse("Admin Registration successful.", user);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -82,7 +81,9 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PostMapping(UserEndPointsConstants.LOGIN)
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public ResponseEntity<LoginResponseDTO> login(
+            @RequestBody @Valid LoginRequestDTO loginRequestDTO
+    ) {
         String jwt;
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(loginRequestDTO.username(), loginRequestDTO.password());
         Authentication authenticationResponse = authenticationManager.authenticate(authentication);
@@ -114,12 +115,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping(UserEndPointsConstants.GET_USER_BY_ID)
-    public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> getUserById(
+            @PathVariable Long id
+    ) {
         User user = userService.getUserById(id);
-        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.toDTO(user));
-        response.setSuccess(true);
-        response.setMessage("User retrieved successfully.");
+        var response = buildResponse("User retrieved successfully.", user);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -130,12 +130,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping(UserEndPointsConstants.GET_CURR_USER)
-    public ResponseEntity<ResponseDTO<UserResponseDTO>> getCurrUser(Authentication authentication) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> getCurrUser(
+            Authentication authentication
+    ) {
         User user = userService.findByEmail(authentication.getName());
-        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.toDTO(user));
-        response.setSuccess(true);
-        response.setMessage("User retrieved successfully.");
+        var response = buildResponse("User retrieved successfully.", user);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -162,12 +161,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PatchMapping(UserEndPointsConstants.ADD_PHONE_NUMBER)
-    public ResponseEntity<ResponseDTO<UserResponseDTO>> addPhoneNumber(Authentication authentication, @RequestBody UserPhoneNumberUpdateRequestDTO phoneNumber) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> addPhoneNumber(
+            Authentication authentication, @RequestBody @Valid UserPhoneNumberUpdateRequestDTO phoneNumber
+    ) {
         User user = userService.addPhoneNumber(authentication.getName(), phoneNumber.phoneNumber());
-        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.toDTO(user));
-        response.setSuccess(true);
-        response.setMessage("Phone number update successfully.");
+        var response = buildResponse("Phone number update successfully.", user);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -179,12 +177,11 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PatchMapping(UserEndPointsConstants.UPDATE_USER_ADMIN)
-    public ResponseEntity<ResponseDTO<UserResponseDTO>> updateUser(Authentication authentication, @RequestBody UserUpdateRequestDTO user) {
+    public ResponseEntity<ResponseDTO<UserResponseDTO>> updateUser(
+            Authentication authentication, @RequestBody @Valid UserUpdateRequestDTO user
+    ) {
         User updatedUser = userService.updateUser(authentication.getName(), user);
-        ResponseDTO<UserResponseDTO> response = new ResponseDTO<>();
-        response.setData(UserResponseMapper.toDTO(updatedUser));
-        response.setSuccess(true);
-        response.setMessage("User updated successfully.");
+        var response = buildResponse("User updated successfully.", updatedUser);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -195,12 +192,18 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @DeleteMapping(UserEndPointsConstants.DELETE_USER_ADMIN)
-    public ResponseEntity<ResponseDTO<String>> deleteUser(Authentication authentication) {
+    public ResponseEntity<ResponseDTO<String>> deleteUser(
+            Authentication authentication
+    ) {
         userService.deleteUser(authentication.getName());
         ResponseDTO<String> response = new ResponseDTO<>();
         response.setSuccess(true);
         response.setMessage("User deleted successfully.");
         response.setData(String.format("User deleted successfully: %s", authentication.getName()));
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    private ResponseDTO<UserResponseDTO> buildResponse(String message, User user) {
+        return new ResponseDTO<>(message, true, UserResponseMapper.toDTO(user));
     }
 }
