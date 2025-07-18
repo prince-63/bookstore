@@ -26,12 +26,6 @@ public class Book {
     @Schema(description = "Publisher of the book", example = "HarperCollins")
     private String publisher;
 
-    @Schema(description = "Price of the book", example = "399.99")
-    private double price;
-
-    @Schema(description = "Available stock count", example = "120")
-    private int stock;
-
     @Schema(description = "Publication date of the book", example = "2023-08-15")
     private LocalDate publicationDate;
 

@@ -10,8 +10,6 @@ public class BookMapper {
         return Book.builder()
                 .title(requestDTO.title())
                 .description(requestDTO.description())
-                .price(requestDTO.price())
-                .stock(requestDTO.stock())
                 .publicationDate(requestDTO.publicationDate())
                 .publisher(requestDTO.publisher())
                 .build();
@@ -26,8 +24,6 @@ public class BookMapper {
                 .coverImageUrl(book.getCoverImageUrl())
                 .coverImagePublicId(book.getCoverImagePublicId())
                 .bookFileUrlPublicId(book.getBookFileUrlPublicId())
-                .price(book.getPrice())
-                .stock(book.getStock())
                 .publicationDate(book.getPublicationDate())
                 .publisher(book.getPublisher())
                 .categoryId(book.getCategory().getId())
