@@ -85,6 +85,7 @@ public class SecurityConfig {
                                 BookEndPointsConstants.GET_ALL_CATEGORIES,
                                 BookEndPointsConstants.GET_BOOK_BY_ID,
                                 BookEndPointsConstants.GET_ALL_BOOKS,
+                                BookEndPointsConstants.SEARCH_BOOKS,
                                 BookEndPointsConstants.GET_BOOK_BY_CATEGORY_ID,
                                 BookEndPointsConstants.GET_BOOK_BY_AUTHOR_ID
                         ).authenticated()

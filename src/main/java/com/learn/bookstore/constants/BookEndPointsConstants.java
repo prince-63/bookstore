@@ -25,6 +25,7 @@ public class BookEndPointsConstants {
     public static final String UPLOAD_BOOK_FILE = BASE + "/upload/file/{bookId}";
     public static final String GET_BOOK_BY_ID = BASE + "/get/{id}";
     public static final String GET_ALL_BOOKS = BASE + "/get/all";
+    public static final String SEARCH_BOOKS = BASE + "/search/books/{title}";
     public static final String GET_BOOK_BY_CATEGORY_ID =  BASE + "/get/category/{categoryId}";
     public static final String GET_BOOK_BY_AUTHOR_ID = BASE + "/get/author/{authorId}";
     public static final String UPDATE_BOOK_BY_ID = BASE + "/update/{id}";

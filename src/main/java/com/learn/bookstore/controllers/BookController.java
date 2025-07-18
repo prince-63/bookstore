@@ -109,6 +109,19 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(summary = "Get books by title", description = "Retrieves all books belonging to the given title.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Books retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Category not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
+    @GetMapping(BookEndPointsConstants.SEARCH_BOOKS)
+    public ResponseEntity<ResponseDTO<List<BookResponseDTO>>> searchBooksByTitle(@PathVariable String title) {
+        List<Book> books = bookService.searchBooksByTitle(title);
+        var response = buildResponseList(books);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @Operation(summary = "Get books by category", description = "Retrieves all books belonging to the given category ID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Books retrieved successfully"),
