@@ -265,7 +265,7 @@
 					"response": []
 				},
 				{
-					"name": "login",
+					"name": "register-admin",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -274,7 +274,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\r\n//     \"username\": \"admin@gmail.com\",\r\n//     \"password\": \"admin@1234\"\r\n// }\r\n\r\n{\r\n    \"username\": \"prince08833@gmail.com\",\r\n    \"password\": \"prince@1234\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin@gmail.com\",\r\n    \"password\": \"admin@1234\"\r\n}\r\n\r\n// {\r\n//     \"username\": \"prince08833@gmail.com\",\r\n//     \"password\": \"prince@1234\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -319,142 +319,6 @@
 			]
 		},
 		{
-			"name": "address",
-			"item": [
-				{
-					"name": "add-address",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{USER_JWT}}",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"line1\": \"221B Baker Street\",\r\n    \"line2\": \"Apartment B\",\r\n    \"city\": \"London\",\r\n    \"state\": \"Greater London\",\r\n    \"postalCode\": \"NW1 6XE\",\r\n    \"country\": \"United Kingdom\",\r\n    \"isDefault\": true,\r\n    \"type\": \"SHIPPING\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "/user/address",
-							"path": [
-								"user",
-								"address"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get-all-address",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{USER_JWT}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "/user/address",
-							"path": [
-								"user",
-								"address"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update-address",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{USER_JWT}}",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"line1\": \"221B Baker Street\",\r\n    \"line2\": \"Apartment B\",\r\n    \"city\": \"London\",\r\n    \"state\": \"Greater London\",\r\n    \"postalCode\": \"NW1 6XE\",\r\n    \"country\": \"United Kingdom\",\r\n    \"isDefault\": true,\r\n    \"type\": \"SHIPPING\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "/user/address/1",
-							"path": [
-								"user",
-								"address",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete-address",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{USER_JWT}}",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "/user/address/1",
-							"path": [
-								"user",
-								"address",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "category",
 			"item": [
 				{
@@ -468,11 +332,6 @@
 							{
 								"key": "Authorization",
 								"value": "{{ADMIN_JWT}}",
-								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_TOKEN}}",
 								"type": "text"
 							}
 						],
@@ -553,11 +412,6 @@
 								"key": "Authorization",
 								"value": "{{ADMIN_JWT}}",
 								"type": "text"
-							},
-							{
-								"key": "X-XSRF-TOKEN",
-								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
 							}
 						],
 						"body": {
@@ -570,11 +424,11 @@
 							}
 						},
 						"url": {
-							"raw": "/book/category/2",
+							"raw": "/book/category/1",
 							"path": [
 								"book",
 								"category",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -596,7 +450,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -631,7 +486,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -735,7 +591,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -748,11 +605,11 @@
 							}
 						},
 						"url": {
-							"raw": "/book/author/2",
+							"raw": "/book/author/1",
 							"path": [
 								"book",
 								"author",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -774,7 +631,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -876,7 +734,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -1001,12 +860,13 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Harry Potter and the Sorcerer's Stone\",\r\n    \"isbn\": \"9780439708180\",\r\n    \"description\": \"The first novel in the Harry Potter series by J.K. Rowling.\",\r\n    \"publisher\": \"Bloomsbury\",\r\n    \"price\": 349.50,\r\n    \"stock\": 100,\r\n    \"publicationDate\": \"1997-06-26\",\r\n    \"categoryId\": 2,\r\n    \"authorId\": 3\r\n}",
+							"raw": "{\r\n    \"title\": \"Harry Potter and the Sorcerer's Stone\",\r\n    \"isbn\": \"9780439708180\",\r\n    \"description\": \"The first novel in the Harry Potter series by J.K. Rowling.\",\r\n    \"publisher\": \"Bloomsbury\",\r\n    \"price\": 349.50,\r\n    \"stock\": 100,\r\n    \"publicationDate\": \"1997-06-26\",\r\n    \"categoryId\": 2,\r\n    \"authorId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1037,7 +897,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -1073,7 +934,8 @@
 							{
 								"key": "X-XSRF-TOKEN",
 								"value": "{{XSRF_TOKEN}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -1113,7 +975,7 @@
 					"response": []
 				},
 				{
-					"name": "cover-image-upload Copy",
+					"name": "upload-book-file",
 					"request": {
 						"method": "PATCH",
 						"header": [
