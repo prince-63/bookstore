@@ -3,6 +3,9 @@ package com.learn.bookstore.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -21,16 +24,21 @@ public class Book {
     private Long id;
 
     @Schema(description = "Title of the book", example = "The Alchemist")
+    @NotBlank(message = "Title is required")
     private String title;
 
     @Schema(description = "Publisher of the book", example = "HarperCollins")
+    @NotBlank(message = "Publisher is required")
     private String publisher;
 
     @Schema(description = "Publication date of the book", example = "2023-08-15")
+    @Past(message = "Publisher date must be in past.")
     private LocalDate publicationDate;
 
     @Column(length = 1000)
     @Schema(description = "Brief description of the book", example = "A philosophical novel about following your dreams.")
+    @NotBlank(message = "Book description required")
+    @Size(max = 1000, message = "Book description must be under 1000 character")
     private String description;
 
     @Schema(description = "URL of the book's cover image", example = "https://res.cloudinary.com/.../cover.jpg")
