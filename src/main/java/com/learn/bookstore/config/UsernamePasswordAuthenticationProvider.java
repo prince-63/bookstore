@@ -18,11 +18,6 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * @param authentication the authentication request object.
-     * @return
-     * @throws AuthenticationException
-     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -35,10 +30,6 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         }
     }
 
-    /**
-     * @param authentication
-     * @return
-     */
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));

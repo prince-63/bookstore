@@ -30,5 +30,4 @@ public class BookEndPointsConstants {
     public static final String UPDATE_BOOK_BY_ID = BASE + "/update/{id}";
     public static final String DELETE_BOOK_BY_ID = BASE + "/delete/{id}";
 
-
 }
