@@ -1,4 +1,4 @@
-package com.learn.bookstore.util;
+package com.learn.bookstore.utils;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.web.multipart.MultipartFile;
