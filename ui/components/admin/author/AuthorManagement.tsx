@@ -30,9 +30,11 @@ export default function AuthorManagement() {
   }, []);
 
   const loadAuthors = async () => {
-    const res = await getAllAuthors();
-    if (res.status === 200) {
-      setAuthors(res.data.data);
+    try {
+      const response = await getAllAuthors();
+      setAuthors(response);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -50,7 +52,7 @@ export default function AuthorManagement() {
     setIsDialogOpen(false);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this author?')) {
       await deleteAuthor(id);
       await loadAuthors();

@@ -13,7 +13,7 @@ import { Author } from '@/types/author';
 interface AuthorTableProps {
   authors: Author[];
   onEdit: (author: Author) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
 }
 
 export function AuthorTable({ authors, onEdit, onDelete }: AuthorTableProps) {
