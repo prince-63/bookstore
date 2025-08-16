@@ -4,9 +4,9 @@ A **production-grade Bookstore backend** built with **Java, Spring Boot, MySQL**
 
 This project is built to simulate a real-world online bookstore backend and is structured to demonstrate production-quality development skills.
 
-<video autoplay>
-  <source src="https://res.cloudinary.com/duhumawiq/video/upload/v1755350581/bookstore_mrrjeb.mp4" type="video/mp4">
-</video>
+<a href="https://res.cloudinary.com/duhumawiq/video/upload/v1755350581/bookstore_mrrjeb.mp4" >
+   Click to See Preview
+</a>
 
 #### 🔧 Tech Stack
 
