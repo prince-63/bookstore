@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { LoginForm } from '@/components/auth/login-form';
 import { RegisterForm } from '@/components/auth/register-form';
-import { BookBrowsing } from '@/components/user/book-browsing';
-import { AdminDashboard } from '@/components/admin/admin-dashboard';
+import AdminDashboard from '@/components/admin/dashboard/AdminDashboard';
+import BookBrowsing from '@/components/user/book/BookBrowsing';
 import axios from 'axios';
 import ApiConfig from '@/config/api-config';
 
