@@ -74,11 +74,11 @@ public class BookController {
     })
     @PatchMapping(BookEndPointsConstants.UPLOAD_BOOK_FILE)
     public ResponseEntity<ResponseDTO<BookResponseDTO>> uploadBookFile(
-            @RequestParam("bookFile") MultipartFile imageFile,
+            @RequestParam("bookFile") MultipartFile bookFile,
             @PathVariable Long bookId
     ) {
-        BookFileUtil.assertAllowed(imageFile, BookFileUtil.FILE_PATTERN);
-        Book updatedBook = presignedUrlGeneratorService.uploadFile(imageFile, bookId);
+        BookFileUtil.assertAllowed(bookFile, BookFileUtil.FILE_PATTERN);
+        Book updatedBook = presignedUrlGeneratorService.uploadFile(bookFile, bookId);
         var response =  buildResponse("Book file upload successfully", updatedBook);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
