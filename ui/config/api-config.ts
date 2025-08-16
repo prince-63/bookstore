@@ -20,4 +20,13 @@ export default class ApiConfig {
   static DELETE_AUTHOR: string = ApiConfig.BOOK_BASE + '/author';
   static UPDATE_AUTHOR: string = ApiConfig.BOOK_BASE + '/author';
   static GET_ALL_AUTHOR: string = ApiConfig.BOOK_BASE + '/author/get/all';
+
+  static CREATE_NEW_BOOK = ApiConfig.BOOK_BASE + '/create-new';
+  static UPLOAD_COVER_BOOK_IMAGE = ApiConfig.BOOK_BASE + '/upload/cover/image';
+  static UPLOAD_BOOK_FILE = ApiConfig.BOOK_BASE + '/upload/file';
+  static GET_BOOK_BY_ID = ApiConfig.BOOK_BASE + '/get';
+  static GET_ALL_BOOKS = ApiConfig.BOOK_BASE + '/get/all';
+  static UPDATE_BOOK_BY_ID = ApiConfig.BOOK_BASE + '/update';
+  static DELETE_BOOK_BY_ID = ApiConfig.BOOK_BASE + '/delete';
+
 }
